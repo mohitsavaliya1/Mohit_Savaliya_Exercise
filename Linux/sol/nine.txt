@@ -1,0 +1,17 @@
+su - uone
+to change the user to uone
+
+
+sudo useradd -m uone
+sudo useradd -m utwo
+
+sudo passwd uone
+-to change the passwd
+
+to move A FILE from user-one to user-two
+cat ~uone/abc | sudo -u utwo tee ~utwo/abc > /dev/null
+
+to create group
+sudo su -
+groupadd soft
+

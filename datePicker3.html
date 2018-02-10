@@ -1,0 +1,94 @@
+<!--  	<!DOCTYPE html> -->
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<script src="http://jonthornton.github.io/jquery-timepicker/jquery.timepicker.js"></script>
+
+	<style>
+	button{
+		margin-left: 62%;
+		margin-top: 30%;
+	}
+
+	</style>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<p id="datepairExample">
+				<input type="text" class="date date-start" />Starting Date
+				<input type="text" class="time time-start" />Starting Time
+				<input type="text" class="time time-end" />Ending Time
+				<input type="text" class="date date-end" />Ending Date
+			</p>
+			<button class="button">Submit</button>
+		</div>
+		<div class="row">
+
+			<select id="country">
+				<option value="5.50" >India</option>
+				<option value="9">Japan</option>
+				<option value="0">London</option>
+				<option value="-10">USA</option>
+			</select>
+
+		</div>	
+
+
+	</div>
+
+	
+	<script>
+		$(document).ready(function() {
+			$('#datepairExample .time').timepicker({
+				'showDuration': true,
+				'timeFormat': 'g:ia'
+			});
+
+			$('#datepairExample .date').datepicker({
+				'format': 'MM-DD-YYYY',
+			});
+
+			
+		}); 
+		
+
+		$('.button').click(function() {
+			let startDate = $('.date-start').val();
+			let endDate = $('.date-end').val();
+			let startTime = $('.time-start').val();
+			let endTime = $('.time-end').val();
+
+			let country = $('#country').val();
+
+			function calcTime(date,time,offset){
+				let d = new Date(date);		   
+			    let utc = time.substring(0,time.length -2);
+			    let ampm = time.slice(-2);
+
+			    let spl = utc.split(':');
+			    let hour = +(spl[0]);
+			    if(ampm==='pm'){
+			    	 hour += 12;
+			 	}
+			    let min = +(spl[1]);
+			    let timeMil = hour*60*60*1000 + min*60*1000;
+			    let nd = new Date(d.getTime() + timeMil + (3600000*offset));
+			    return "time is " + nd.toLocaleString();
+			}
+			
+			console.log("start", calcTime(startDate,startTime,+(country)));
+			console.log("end", calcTime(endDate,endTime,+(country)));
+		
+
+		});
+	</script>
+
+</body>
+</html>
+
