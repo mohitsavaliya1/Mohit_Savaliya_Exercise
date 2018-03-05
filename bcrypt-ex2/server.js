@@ -1,15 +1,5 @@
-require('./src/server/apis/index.js');
+//require index file of apis
+require('./src/server/apis/');
 
-let dbConfig = require('./config/development.js');
-let mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-
-
-mongoose.connect(dbConfig.url,{});
-mongoose.connection.on('error',()=>{
-	console.log("can't find server");
-});
-
-mongoose.connection.once('open', ()=>{
-	console.log("server started");
-});
+//connect with mongo db
+require('./connection.js');

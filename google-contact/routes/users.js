@@ -1,25 +1,26 @@
-let express = require("express");
-let router = express.Router();
-let db = require("../models");
-let authMiddleware = require("../middleware/auth")
-let passport = require('passport')
-let LocalStrategy  = require('passport-local').Strategy;
-let User           = require('../models/user.js');
-let googleStrategy = require('passport-google-oauth2').Strategy;
-let configAuth     = require('../middleware/auth.js');
+const express = require("express");
+const router = express.Router();
+const db = require("../models");
+const passport = require('passport')
+const User           = require('../models/user.js');
+const googleStrategy = require('passport-google-oauth2').Strategy;
 
 
 module.exports = function(passport) {
+
+    //to serialize user
     passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
 
+    //to deserialize user
     passport.deserializeUser(function(id, done) {
         User.findById(id, function(err, user) {
             done(err, user);
         })
     });
 
+    //creating a new user or login the pre signed up user to our app.
     passport.use(new googleStrategy({
 
         clientID: "624800714981-ngd9ins9ilcue2gvkp6e11ofnng83igt.apps.googleusercontent.com",
@@ -35,10 +36,10 @@ module.exports = function(passport) {
                     return done(err);
 
                 if (user) {
-
+                    //if user exists
                     return done(null, user);
                 } else {
-                    
+                    //creating a new user
                    	let newUser = new User();
 
                     newUser.google.id =  profile.id;

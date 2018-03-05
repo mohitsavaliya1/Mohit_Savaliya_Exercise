@@ -1,7 +1,6 @@
 "use strict"
 let mongoose = require("mongoose");
 
-
 let userSchema = new mongoose.Schema({
     userName: {
         type: String,
@@ -14,12 +13,12 @@ let userSchema = new mongoose.Schema({
     }
 });
 
-let bcryptPassword = require('./../../../.././utils/bcrypt.user.password.js')(userSchema);
+let bcryptPassword = require('./../../../.././utils/bcrypt.user.password.js');
+
+userSchema.pre('save', (next) => {
+    let user = this;
+    bcryptPassword.bcryptPass(user);
+    next();
+}); 
 
 module.exports = mongoose.model("User", userSchema);
-
-
-
-
-
-
